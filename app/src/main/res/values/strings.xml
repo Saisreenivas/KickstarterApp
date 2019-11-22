@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Kickstarter Application</string>
+    <string name="right_arrow">\uf105</string>
+</resources>
