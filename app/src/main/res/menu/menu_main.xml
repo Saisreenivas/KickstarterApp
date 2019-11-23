@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:orderInCategory="100"
+        android:title="Search by name"
+        app:showAsAction="always"
+        app:actionViewClass="android.widget.SearchView" />
+
+    <item
+        android:title="Sort"
+        android:visible="true"
+        android:id="@+id/action_sort"
+        android:icon="@drawable/sort"
+        android:orderInCategory="100"
+        app:showAsAction="always"
+        >
+        <menu >
+            <group
+                android:checkableBehavior="single">
+                <item
+                    android:checkable="true"
+                    android:id="@+id/action_sort_az"
+                    android:visible="true"
+                    android:title="Sort by Alphabet(A-Z)" />
+                <item
+                    android:checkable="true"
+                    android:visible="true"
+                    android:id="@+id/action_sort_za"
+                    android:title="Sort by Alphabet(Z-A)"/>
+                <!--    </group>-->
+                <!--    <group-->
+                <!--        android:checkableBehavior="single"-->
+                <!--        >-->
+                <item
+                    android:checkable="true"
+                    android:visible="true"
+                    android:id="@+id/action_sort_time"
+                    android:title="Bid Time Remaining"/>
+
+            </group>
+
+        </menu>
+    </item>
+
+    <item
+        android:title="Filter"
+        android:visible="true"
+        android:id="@+id/action_filter"
+        android:icon="@drawable/filter"
+        android:orderInCategory="100"
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/action_filter_few"
+                android:visible="true"
+                android:title="@string/backers_10k" />
+
+            <item
+                android:id="@+id/action_filter_low"
+                android:visible="true"
+                android:title="@string/backers_10k_amp_50k" />
+
+            <item
+                android:visible="true"
+                android:id="@+id/action_filter_medium"
+                android:title="@string/backers_50k_amp_90k"/>
+            <item
+                android:visible="true"
+                android:id="@+id/action_filter_high"
+                android:title="@string/backers_90k"/>
+        </menu>
+    </item>
+
+</menu>
