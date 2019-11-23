@@ -5,6 +5,7 @@
     android:orientation="horizontal"
     android:weightSum="11"
     android:background="@drawable/bg_list"
+    android:id="@+id/item_layout"
     android:padding="12dp"
     android:layout_marginTop="12dp"
     android:layout_height="wrap_content">

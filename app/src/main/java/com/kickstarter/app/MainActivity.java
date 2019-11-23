@@ -2,21 +2,32 @@ package com.kickstarter.app;
 
 import Adapter.ProjectListAdapter;
 import Model.Project;
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.SearchManager;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
+import android.widget.Toast;
+
+import androidx.appcompat.widget.Toolbar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,9 +41,18 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+
+import static Adapter.ProjectListAdapter.FEW_BACKERS;
+import static Adapter.ProjectListAdapter.FILTER_VIEW;
+import static Adapter.ProjectListAdapter.HUGE_BACKERS;
+import static Adapter.ProjectListAdapter.LOW_BACKERS;
+import static Adapter.ProjectListAdapter.MEDIUM_BACKERS;
+import static Adapter.ProjectListAdapter.SEARCH_VIEW;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private final String url= "http://starlord.hackerearth.com/kickstarter";
@@ -41,28 +61,122 @@ public class MainActivity extends AppCompatActivity {
     private int limit = 0;
     private ArrayList<Project> initialData;
     private SearchView searchView;
-    private ImageButton sortBtn, filterBtn;
+//    private
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+//        return super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        sortBtn
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        searchView = (SearchView) menu.findItem(R.id.action_search)
+            .getActionView();
+        searchView.setSearchableInfo(searchManager
+            .getSearchableInfo(getComponentName()));
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+//        searchView.setMaxWidth(?);
+//        searchView.setIconifiedByDefault(false);
+        searchView.setQueryHint("Search by name");
+//        ActionBar.LayoutParams params = new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
+//        searchView.setLayoutParams(params);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+//                if(fullData.contains(s)){
+////                    projectListAdapter
+//                }
+                Log.v(TAG, "onQueryTextSubmit: " + s );
+                projectListAdapter.getFilter(SEARCH_VIEW).filter(s);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                Log.v(TAG, "onQueryTextChange: "+s );
+                projectListAdapter.getFilter(SEARCH_VIEW).filter(s);
+                return false;
+            }
+        });
+
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+        if(id == R.id.action_search){
+            return true;
+        }else if(id == R.id.action_filter_few){
+            Log.v(TAG, "item click: " + item.getTitle());
+            projectListAdapter.getFilter(FILTER_VIEW).filter(FEW_BACKERS);
+        }else if(id == R.id.action_filter_low){
+            projectListAdapter.getFilter(FILTER_VIEW).filter(LOW_BACKERS);
+        }else if(id == R.id.action_filter_medium){
+            projectListAdapter.getFilter(FILTER_VIEW).filter(MEDIUM_BACKERS);
+        }else if(id == R.id.action_filter_high){
+            projectListAdapter.getFilter(FILTER_VIEW).filter(HUGE_BACKERS);
+        }else if(id == R.id.action_sort_az) {
+            Log.v(TAG, "item click: " + item.getTitle());
+            projectListAdapter.getSorted("az");
+
+        }else if(id == R.id.action_sort_za) {
+            Log.v(TAG, "item click: " + item.getTitle());
+            projectListAdapter.getSorted("za");
+        }else if(id == R.id.action_sort_time){
+            Log.v(TAG, "item click: " + item.getTitle());
+            projectListAdapter.getSorted("time");
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(!searchView.isIconified()){
+            searchView.setIconified(true);
+            return;
+        }
+        super.onBackPressed();
+    }
+
+    private void whiteNotificationBar(View view) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int flags = view.getSystemUiVisibility();
+            flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            view.setSystemUiVisibility(flags);
+            getWindow().setStatusBarColor(Color.WHITE);
+        }
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
+        Toolbar toolbar= findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("");
+
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        whiteNotificationBar(recyclerView);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
-        searchView = findViewById(R.id.search_view);
-        sortBtn = findViewById(R.id.sort_btn);
-        filterBtn = findViewById(R.id.filter_btn);
-        /*TODO search the data by name- Implementation*/
-        /*TODO sort the data by time or alphabetically- Implementation*/
-        /*TODO filter the data by "No of Backers"- Implementation*/
+//        searchView = findViewById(R.id.search_view);
+//        sortBtn = findViewById(R.id.sort_btn);
+//        filterBtn = findViewById(R.id.filter_btn);
+
 
 
         /*TODO can add Portfolio activity comprising awesoome work you have done in android*/
 
-        new AddDataForContent(getParent(), recyclerView, progressBar).execute(url);
+        startBackgroundWork();
 //        recyclerView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
 //            @Override
 //            public void onScrollChange(View view, int i, int i1, int i2, int i3) {
@@ -79,6 +193,10 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
         /*TODO onscroll listener in recyclerview*/
+    }
+
+    private void startBackgroundWork() {
+        new AddDataForContent(getParent(), recyclerView, progressBar).execute(url);
     }
 
 
@@ -116,16 +234,31 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ArrayList<Project> arrayList) {
             super.onPostExecute(arrayList);
-
-            setUpData(arrayList, 20);
+            if(arrayList == null){
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("No Data Found!");
+                builder.setMessage("Unable to resolve host. Retry?");
+                builder.setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        startBackgroundWork();
+                    }
+                });
+                builder.create();
+                builder.show();
+            }else{
+                Log.v("MainAcitivity", "onPostExecute: " + arrayList.toString());
+                setUpData(arrayList, 20);
+            }
         }
     }
 
     private void setUpData(ArrayList arrayList, int i) {
-        initialData = getList(limit,20);
+//        initialData = getList(limit,20);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        projectListAdapter = new ProjectListAdapter(getApplicationContext(), initialData, 20);
+        projectListAdapter = new ProjectListAdapter(MainActivity.this, arrayList, 20);
         recyclerView.setAdapter(projectListAdapter);
+        progressBar.setVisibility(View.GONE);
         projectListAdapter.notifyDataSetChanged();
     }
 
@@ -159,6 +292,13 @@ public class MainActivity extends AppCompatActivity {
             JSONArray jsonArray = new JSONArray(line);
             for(int i=0;i<jsonArray.length();i++){
                 JSONObject jb = jsonArray.getJSONObject(i);
+                int backers;
+                try{
+                    backers = Integer.parseInt(jb.getString("num.backers"));
+                }catch (Exception e){
+                    backers = 0;
+                }
+
                 Project project = new Project(jb.getInt("s.no")
                         , jb.getInt("amt.pledged")
                         , jb.getString("blurb")
@@ -168,7 +308,7 @@ public class MainActivity extends AppCompatActivity {
                         , jb.getString("end.time")
                         , jb.getString("location")
                         , jb.getInt("percentage.funded")
-                        , jb.getInt("num.backers")
+                        , backers
                         , jb.getString("state")
                         , jb.getString("title")
                         , jb.getString("type")
