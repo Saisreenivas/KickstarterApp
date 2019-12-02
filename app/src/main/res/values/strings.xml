@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Kickstarter Application</string>
+    <string name="app_name">IPOs</string>
     <string name="right_arrow">\uf105</string>
     <string name="backers_10k"><![CDATA[Backers(<20k)]]></string>
     <string name="backers_10k_amp_50k"><![CDATA[Backers(>20k & <50k)]]></string>

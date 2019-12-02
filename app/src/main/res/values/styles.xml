@@ -7,6 +7,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowContentTransitions" tools:targetApi="lollipop">true</item>
+<!--        <item name="android:elevation">0dp</item>-->
 <!--        <item name="windowActionBar">false</item>-->
 <!--        <item name="windowNoTitle">true</item>-->
     </style>
@@ -14,6 +15,7 @@
         <!-- Customize your theme here. -->
 <!--        <item name="colorPrimary">@null</item>-->
         <item name="android:background">@null</item>
+
 <!--        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
 <!--        <item name="colorAccent">@color/colorAccent</item>-->
 <!--        <item name="android:windowContentTransitions" tools:targetApi="lollipop">true</item>-->

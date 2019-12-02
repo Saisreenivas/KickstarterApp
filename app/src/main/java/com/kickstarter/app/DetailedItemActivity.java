@@ -2,6 +2,7 @@ package com.kickstarter.app;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.transition.Slide;
@@ -40,7 +41,10 @@ public class DetailedItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detailed);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar_detailed));
         setTitle("");
+        setTitleColor(Color.parseColor("#f6f8fa"));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setElevation(10f);
+
         setAnimation();
 
 

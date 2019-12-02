@@ -6,6 +6,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -157,12 +158,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 //        getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
-        Toolbar toolbar= findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setTitle("IPO's");
+        toolbar.setBackgroundColor(Color.parseColor("#f6f8fa"));
+        setTitleColor(Color.parseColor("#f6f8fa"));
 //        setSupportActionBar(toolbar);
         setSupportActionBar(toolbar);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("");
+//        getWindow().setStatusBarColor();
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
+            getWindow().setStatusBarColor(Color.parseColor("#f6f8fa"));
+//                    darkenColor(
+//                            ContextCompat.getColor(MainActivity.this, color)));
+//        }
+
+        /*TODO mock and Unit testing, mokito.org*/
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         whiteNotificationBar(recyclerView);
