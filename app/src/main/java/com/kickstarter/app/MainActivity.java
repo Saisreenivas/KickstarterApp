@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.SearchManager;
@@ -62,8 +63,9 @@ public class MainActivity extends AppCompatActivity {
     private int limit = 0;
     private ArrayList<Project> initialData;
     private SearchView searchView;
+    public Toolbar toolbar;
 //    private
-
+/*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 //        return super.onCreateOptionsMenu(menu);
@@ -134,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    */
     @Override
     public void onBackPressed() {
         if(!searchView.isIconified()){
@@ -158,18 +161,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 //        getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+//        setToolbar(toolbar);
         setTitle("IPO's");
-        toolbar.setBackgroundColor(Color.parseColor("#f6f8fa"));
-        setTitleColor(Color.parseColor("#f6f8fa"));
+
 //        setSupportActionBar(toolbar);
-        setSupportActionBar(toolbar);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("");
 //        getWindow().setStatusBarColor();
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
-            getWindow().setStatusBarColor(Color.parseColor("#f6f8fa"));
 //                    darkenColor(
 //                            ContextCompat.getColor(MainActivity.this, color)));
 //        }
@@ -177,7 +176,6 @@ public class MainActivity extends AppCompatActivity {
         /*TODO mock and Unit testing, mokito.org*/
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        whiteNotificationBar(recyclerView);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
 //        searchView = findViewById(R.id.search_view);
@@ -205,6 +203,18 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
         /*TODO onscroll listener in recyclerview*/
+    }
+
+    @SuppressLint("NewApi")
+    private void setToolbar(Toolbar toolbar) {
+//        toolbar = findViewById(R.id.toolbar);
+        /*TODO Menu connections need to be added*/
+        toolbar.setBackgroundColor(Color.parseColor("#f6f8fa"));
+        setSupportActionBar(toolbar);
+        getWindow().setStatusBarColor(Color.parseColor("#f6f8fa"));
+        setTitleColor(Color.parseColor("#f6f8fa"));
+        whiteNotificationBar(recyclerView);
+        getSupportActionBar().setTitle("");
     }
 
     private void startBackgroundWork() {

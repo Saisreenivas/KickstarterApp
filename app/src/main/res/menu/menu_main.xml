@@ -9,7 +9,7 @@
         android:icon="@drawable/ic_search_black_24dp"
         android:orderInCategory="100"
         android:title="Search by name"
-        app:showAsAction="always"
+        app:showAsAction="never"
         app:actionViewClass="android.widget.SearchView" />
 
     <item
@@ -18,7 +18,7 @@
         android:id="@+id/action_sort"
         android:icon="@drawable/sort"
         android:orderInCategory="100"
-        app:showAsAction="always"
+        app:showAsAction="never"
         >
         <menu >
             <group
@@ -54,7 +54,7 @@
         android:id="@+id/action_filter"
         android:icon="@drawable/filter"
         android:orderInCategory="100"
-        app:showAsAction="always">
+        app:showAsAction="never">
         <menu>
             <item
                 android:id="@+id/action_filter_few"

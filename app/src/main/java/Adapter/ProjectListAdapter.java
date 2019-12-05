@@ -28,6 +28,7 @@ import java.util.Optional;
 
 import Model.Project;
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SortedList;
 
@@ -68,6 +69,23 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
     @Override
     public void onBindViewHolder(@NonNull ProjectListAdapter.ViewHolder holder, final int position) {
         Project project = finalListFiltered.get(position);
+        int background = 0;
+        int d_background =0;
+        if(position % 4  == 1){
+            background = R.drawable.bg_border_quarter_circle_one;
+            d_background = R.drawable.bg_border_quarter_circle_two;
+        }else if(position % 4 == 2){
+            background = R.drawable.bg_border_quarter_circle_two;
+            d_background = R.drawable.bg_border_quarter_circle_three;
+        }else if(position % 4 == 3){
+            background = R.drawable.bg_border_quarter_circle_three;
+            d_background = R.drawable.bg_border_quarter_circle_four;
+        }else if(position % 4 == 0 ){
+            background = R.drawable.bg_border_quarter_circle_four;
+            d_background = R.drawable.bg_border_quarter_circle_one;
+        }
+        holder.layout.setBackgroundResource(background);
+        holder.dump_back.setBackgroundResource(d_background);
         holder.heading.setText(
                 project.getTitle()
         );
@@ -255,7 +273,8 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView heading, pledge, backers, daysToGo;
-        LinearLayout layout;
+        LinearLayout layout, dump_back;
+//        CardView layout;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             heading = itemView.findViewById(R.id.item_heading);
@@ -263,6 +282,7 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
             backers = itemView.findViewById(R.id.item_backers);
             daysToGo = itemView.findViewById(R.id.no_of_days_to_go);
             layout = itemView.findViewById(R.id.item_layout);
+            dump_back = itemView.findViewById(R.id.item_dump_back);
         }
     }
 
